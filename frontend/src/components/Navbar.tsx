@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { X } from "lucide-react";
 import { AlignJustify } from "lucide-react";
-import { ModeToggle } from "./mode-toggle";
+import useUser from "../hooks/useUser.jsx"
 
+import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import ProfileOptions from "./ProfileOptions.js";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const authenticated = true;
+  const {user} = useUser()
   return (
     <>
       <header className="dark:bg-secondary bg-primary/20 p-2">
@@ -50,13 +51,12 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="flex items-center gap-5">
-            {authenticated ? (
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+            {user ? (
+              <ProfileOptions/>
             ) : (
-              <Button variant={"default"}>Login</Button>
+              <Link to={'/login'}>
+                <Button variant={"default"}>Login</Button>
+              </Link>
             )}
             <div className="md:hidden">
             {menuOpen ? (
